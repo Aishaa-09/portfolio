@@ -1,0 +1,747 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Aisha Rifza — Software Engineer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0B1A20;
+    --panel: #0F2830;
+    --panel-2: #12343D;
+    --border: #1E434D;
+    --teal: #5FE1C7;
+    --teal-dim: #3A8C7D;
+    --text: #EAF3F2;
+    --text-dim: #8FA8AC;
+    --text-faint: #5A7276;
+    --amber: #E8A758;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Inter', sans-serif;
+    font-size: 16px;
+    line-height: 1.6;
+    padding-bottom: 44px; /* space for status bar */
+  }
+
+  ::selection { background: var(--teal); color: var(--bg); }
+
+  a { color: inherit; text-decoration: none; }
+
+  .mono { font-family: 'JetBrains Mono', monospace; }
+
+  .wrap {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 0 28px;
+  }
+
+  /* ---------- Top tab bar ---------- */
+  .tabbar {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    background: rgba(11, 26, 32, 0.92);
+    backdrop-filter: blur(8px);
+    border-bottom: 1px solid var(--border);
+  }
+  .tabbar-inner {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 0 28px;
+    display: flex;
+    align-items: center;
+    gap: 2px;
+    overflow-x: auto;
+  }
+  .tab {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13px;
+    color: var(--text-faint);
+    padding: 13px 18px;
+    border-right: 1px solid var(--border);
+    white-space: nowrap;
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    transition: color 0.15s ease, background 0.15s ease;
+    cursor: pointer;
+  }
+  .tab:hover { color: var(--text-dim); background: rgba(255,255,255,0.02); }
+  .tab.active { color: var(--teal); background: var(--panel); border-bottom: 2px solid var(--teal); margin-bottom: -1px; }
+  .tab .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--teal-dim); }
+  .tab.active .dot { background: var(--teal); box-shadow: 0 0 6px var(--teal); }
+
+  /* ---------- Hero ---------- */
+  .hero {
+    padding: 90px 0 70px;
+    position: relative;
+  }
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 50%;
+    transform: translateX(-50%);
+    width: 100vw;
+    height: 100%;
+    background:
+      radial-gradient(ellipse 600px 300px at 15% 0%, rgba(95, 225, 199, 0.07), transparent 60%);
+    pointer-events: none;
+    z-index: -1;
+  }
+  .file-path {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12.5px;
+    color: var(--text-faint);
+    margin-bottom: 28px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .file-path .sep { color: var(--teal-dim); }
+
+  .hero-comment {
+    font-family: 'JetBrains Mono', monospace;
+    color: var(--teal-dim);
+    font-size: 14px;
+    margin-bottom: 14px;
+  }
+
+  h1.name {
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 700;
+    font-size: clamp(42px, 7vw, 68px);
+    line-height: 1.05;
+    letter-spacing: -0.02em;
+    color: var(--text);
+  }
+  h1.name .fn { color: var(--teal-dim); font-size: 0.45em; font-weight: 500; vertical-align: middle; }
+
+  .role-line {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: clamp(18px, 3vw, 24px);
+    color: var(--text-dim);
+    margin-top: 10px;
+    font-weight: 500;
+  }
+  .role-line .teal { color: var(--teal); }
+
+  .hero-desc {
+    max-width: 560px;
+    color: var(--text-dim);
+    margin-top: 24px;
+    font-size: 16px;
+  }
+
+  .hero-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 22px;
+    margin-top: 34px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13.5px;
+  }
+  .hero-meta a, .hero-meta span {
+    color: var(--text-dim);
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    padding: 8px 14px;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    transition: border-color 0.15s ease, color 0.15s ease, transform 0.15s ease;
+  }
+  .hero-meta a:hover {
+    border-color: var(--teal-dim);
+    color: var(--teal);
+    transform: translateY(-1px);
+  }
+
+  /* ---------- Section shell ---------- */
+  section { padding: 64px 0; border-top: 1px solid var(--border); }
+  section:first-of-type { border-top: none; }
+
+  .section-head {
+    display: flex;
+    align-items: baseline;
+    gap: 14px;
+    margin-bottom: 38px;
+  }
+  .section-num {
+    font-family: 'JetBrains Mono', monospace;
+    color: var(--teal-dim);
+    font-size: 13px;
+  }
+  .section-title {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 26px;
+    font-weight: 600;
+    color: var(--text);
+  }
+  .section-comment {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13px;
+    color: var(--text-faint);
+    flex: 1;
+    text-align: right;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  /* ---------- Profile / About ---------- */
+  .about-block {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 28px 30px;
+    position: relative;
+  }
+  .about-block::before {
+    content: '"""';
+    font-family: 'JetBrains Mono', monospace;
+    color: var(--teal-dim);
+    font-size: 20px;
+    display: block;
+    margin-bottom: 6px;
+  }
+  .about-block p { color: var(--text-dim); font-size: 15.5px; }
+  .about-block .stat-row {
+    display: flex;
+    gap: 30px;
+    margin-top: 22px;
+    padding-top: 22px;
+    border-top: 1px dashed var(--border);
+    flex-wrap: wrap;
+  }
+  .stat { display: flex; flex-direction: column; gap: 3px; }
+  .stat .val { font-family: 'Space Grotesk', sans-serif; font-size: 26px; font-weight: 700; color: var(--teal); }
+  .stat .lbl { font-family: 'JetBrains Mono', monospace; font-size: 11.5px; color: var(--text-faint); text-transform: uppercase; letter-spacing: 0.04em; }
+
+  /* ---------- Education ---------- */
+  .edu-item {
+    display: grid;
+    grid-template-columns: 110px 1fr;
+    gap: 20px;
+    padding: 22px 0;
+    border-bottom: 1px solid var(--border);
+  }
+  .edu-item:last-child { border-bottom: none; }
+  .edu-year {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13px;
+    color: var(--teal-dim);
+    padding-top: 3px;
+  }
+  .edu-school {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--text);
+  }
+  .edu-degree { color: var(--text-dim); font-size: 14.5px; margin-top: 4px; }
+  .edu-badge {
+    display: inline-block;
+    margin-top: 10px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    color: var(--teal);
+    background: rgba(95, 225, 199, 0.08);
+    border: 1px solid rgba(95, 225, 199, 0.25);
+    padding: 3px 9px;
+    border-radius: 4px;
+  }
+
+  /* ---------- Experience ---------- */
+  .exp-card {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 26px 28px;
+  }
+  .exp-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 16px;
+  }
+  .exp-role {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 19px;
+    font-weight: 600;
+    color: var(--text);
+  }
+  .exp-org { color: var(--teal); font-weight: 500; }
+  .exp-date {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12.5px;
+    color: var(--text-faint);
+    background: var(--panel-2);
+    padding: 4px 10px;
+    border-radius: 5px;
+    white-space: nowrap;
+  }
+  .exp-list { list-style: none; }
+  .exp-list li {
+    position: relative;
+    padding-left: 22px;
+    color: var(--text-dim);
+    font-size: 15px;
+    margin-bottom: 10px;
+  }
+  .exp-list li::before {
+    content: '▸';
+    position: absolute;
+    left: 0;
+    color: var(--teal-dim);
+  }
+
+  /* ---------- Projects grid ---------- */
+  .proj-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+  }
+  @media (max-width: 640px) { .proj-grid { grid-template-columns: 1fr; } }
+
+  .proj-card {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 22px 22px 20px;
+    transition: border-color 0.18s ease, transform 0.18s ease, box-shadow 0.18s ease;
+    position: relative;
+    overflow: hidden;
+  }
+  .proj-card:hover {
+    border-color: var(--teal-dim);
+    transform: translateY(-3px);
+    box-shadow: 0 10px 24px rgba(0,0,0,0.25);
+  }
+  .proj-tag {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--amber);
+    letter-spacing: 0.03em;
+    margin-bottom: 10px;
+    display: block;
+  }
+  .proj-title {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 17.5px;
+    font-weight: 600;
+    color: var(--text);
+    margin-bottom: 8px;
+  }
+  .proj-desc { color: var(--text-dim); font-size: 14px; }
+
+  /* ---------- Certifications ---------- */
+  .cert-item {
+    display: flex;
+    gap: 16px;
+    padding: 18px 0;
+    border-bottom: 1px solid var(--border);
+    align-items: flex-start;
+  }
+  .cert-item:last-child { border-bottom: none; }
+  .cert-icon {
+    font-family: 'JetBrains Mono', monospace;
+    color: var(--teal);
+    font-size: 15px;
+    padding-top: 2px;
+    flex-shrink: 0;
+  }
+  .cert-title { font-weight: 600; color: var(--text); font-size: 15.5px; }
+  .cert-desc { color: var(--text-dim); font-size: 14px; margin-top: 4px; }
+
+  /* ---------- Skills ---------- */
+  .skills-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 22px;
+  }
+  .skill-group-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    color: var(--teal-dim);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: 12px;
+  }
+  .skill-pills { display: flex; flex-wrap: wrap; gap: 8px; }
+  .pill {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12.5px;
+    color: var(--text-dim);
+    background: var(--panel);
+    border: 1px solid var(--border);
+    padding: 6px 12px;
+    border-radius: 5px;
+    transition: all 0.15s ease;
+  }
+  .pill:hover { color: var(--teal); border-color: var(--teal-dim); }
+
+  /* ---------- Contact / footer ---------- */
+  .contact-cta {
+    text-align: center;
+    padding: 20px 0 10px;
+  }
+  .contact-cta h2 {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: clamp(28px, 5vw, 40px);
+    font-weight: 700;
+    color: var(--text);
+  }
+  .contact-cta .teal { color: var(--teal); }
+  .contact-cta p { color: var(--text-dim); margin-top: 14px; max-width: 480px; margin-left: auto; margin-right: auto; }
+  .contact-links {
+    display: flex;
+    justify-content: center;
+    gap: 14px;
+    margin-top: 32px;
+    flex-wrap: wrap;
+  }
+  .btn {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 14px;
+    padding: 12px 22px;
+    border-radius: 7px;
+    border: 1px solid var(--border);
+    color: var(--text-dim);
+    transition: all 0.15s ease;
+  }
+  .btn.primary { background: var(--teal); color: var(--bg); font-weight: 600; border-color: var(--teal); }
+  .btn.primary:hover { background: #7CEBD5; transform: translateY(-2px); }
+  .btn:hover { border-color: var(--teal-dim); color: var(--teal); transform: translateY(-2px); }
+
+  footer {
+    text-align: center;
+    padding: 40px 0 20px;
+    color: var(--text-faint);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+  }
+
+  /* ---------- Status bar (signature element) ---------- */
+  .statusbar {
+    position: fixed;
+    bottom: 0; left: 0; right: 0;
+    height: 32px;
+    background: var(--teal-dim);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 16px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    color: #06231F;
+    z-index: 100;
+  }
+  .statusbar-left, .statusbar-right { display: flex; align-items: center; gap: 16px; }
+  .statusbar span { display: flex; align-items: center; gap: 6px; }
+  .statusbar .branch::before { content: '⎇'; }
+  @media (max-width: 560px) {
+    .statusbar-right { display: none; }
+  }
+
+  @media (max-width: 640px) {
+    .hero { padding: 60px 0 40px; }
+    section { padding: 46px 0; }
+    .edu-item { grid-template-columns: 1fr; gap: 6px; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    * { transition: none !important; }
+  }
+
+  a:focus-visible, .tab:focus-visible {
+    outline: 2px solid var(--teal);
+    outline-offset: 2px;
+  }
+</style>
+</head>
+<body>
+
+<div class="tabbar">
+  <div class="tabbar-inner">
+    <a href="#about" class="tab active"><span class="dot"></span>about.md</a>
+    <a href="#education" class="tab"><span class="dot"></span>education.md</a>
+    <a href="#experience" class="tab"><span class="dot"></span>experience.js</a>
+    <a href="#projects" class="tab"><span class="dot"></span>projects/</a>
+    <a href="#certifications" class="tab"><span class="dot"></span>certs.json</a>
+    <a href="#skills" class="tab"><span class="dot"></span>skills.yaml</a>
+    <a href="#contact" class="tab"><span class="dot"></span>contact.sh</a>
+  </div>
+</div>
+
+<div class="wrap">
+
+  <section class="hero" id="about">
+    <div class="file-path">~/portfolio <span class="sep">›</span> about.md</div>
+    <div class="hero-comment">// final-year engineer, building things that ship</div>
+    <h1 class="name">Aisha Rifza<span class="fn"></span></h1>
+    <div class="role-line">Software Engineer <span class="teal">·</span> AI/ML <span class="teal">&amp;</span> MERN</div>
+    <p class="hero-desc">
+      Information Science &amp; Engineering student at Atria Institute of Technology, Bengaluru.
+      I build full-stack web applications and train ML models — most recently text classifiers
+      and object detection systems — and I'm looking for my next internship.
+    </p>
+    <div class="hero-meta">
+      <a href="mailto:aisharifza189@gmail.com">✉ aisharifza189@gmail.com</a>
+      <a href="tel:+917259975530">☎ 7259975530</a>
+      <span>📍 Hebbal, Bengaluru</span>
+      <a href="https://github.com/Aishaa-09" target="_blank" rel="noopener">⌥ github.com/Aishaa-09</a>
+      <a href="https://www.linkedin.com/in/aisha-rifza-97022033a" target="_blank" rel="noopener">in/ linkedin</a>
+    </div>
+
+    <div class="about-block" style="margin-top:40px;">
+      <p>Seeking an opportunity to apply technical knowledge, problem-solving abilities, and
+      teamwork skills in real-world projects and a professional corporate environment —
+      currently interviewing for internships in MERN stack and applied AI/ML roles.</p>
+      <div class="stat-row">
+        <div class="stat"><span class="val">8.60</span><span class="lbl">CGPA</span></div>
+        <div class="stat"><span class="val">2027</span><span class="lbl">Graduating</span></div>
+        <div class="stat"><span class="val">5+</span><span class="lbl">Projects Shipped</span></div>
+        <div class="stat"><span class="val">2nd</span><span class="lbl">IEEE Synergy 2025</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="education">
+    <div class="section-head">
+      <span class="section-num">01</span>
+      <h2 class="section-title">Education</h2>
+      <span class="section-comment">// two records</span>
+    </div>
+
+    <div class="edu-item">
+      <div class="edu-year">2023 — 2027</div>
+      <div>
+        <div class="edu-school">Atria Institute of Technology</div>
+        <div class="edu-degree">Bachelor of Engineering, Information Science &amp; Engineering · VTU</div>
+        <span class="edu-badge">CGPA 8.60</span>
+      </div>
+    </div>
+
+    <div class="edu-item">
+      <div class="edu-year">2021 — 2023</div>
+      <div>
+        <div class="edu-school">Jnanasagara PU College</div>
+        <div class="edu-degree">Pre-University</div>
+      </div>
+    </div>
+  </section>
+
+  <section id="experience">
+    <div class="section-head">
+      <span class="section-num">02</span>
+      <h2 class="section-title">Experience</h2>
+      <span class="section-comment">// 1 internship, 3 months</span>
+    </div>
+
+    <div class="exp-card">
+      <div class="exp-top">
+        <div>
+          <div class="exp-role">AI &amp; Web Development Intern</div>
+          <div class="exp-org">Personifwy / 1Stop.ai</div>
+        </div>
+        <div class="exp-date">Sep 2025 – Nov 2025</div>
+      </div>
+      <ul class="exp-list">
+        <li>Developed a personal expense tracker, an HTML to-do list, and a single-page website using HTML, CSS, and JavaScript.</li>
+        <li>Built and tested machine learning models with TensorFlow for text classification and object detection — handling training, evaluation, and basic optimization.</li>
+      </ul>
+    </div>
+  </section>
+
+  <section id="projects">
+    <div class="section-head">
+      <span class="section-num">03</span>
+      <h2 class="section-title">Projects</h2>
+      <span class="section-comment">// ls projects/</span>
+    </div>
+
+    <div class="proj-grid">
+      <div class="proj-card">
+        <span class="proj-tag">IOT</span>
+        <div class="proj-title">Smart Hand Glove</div>
+        <div class="proj-desc">An advanced IoT-based hand glove system for sensor-driven interaction and monitoring.</div>
+      </div>
+      <div class="proj-card">
+        <span class="proj-tag">FULL-STACK</span>
+        <div class="proj-title">Airline Ticket Reservation System</div>
+        <div class="proj-desc">An end-to-end booking system covering search, seat selection, and reservation flow.</div>
+      </div>
+      <div class="proj-card">
+        <span class="proj-tag">FULL-STACK</span>
+        <div class="proj-title">E-Commerce Order Processing System</div>
+        <div class="proj-desc">A system for managing orders across the retail pipeline, from cart to fulfillment.</div>
+      </div>
+      <div class="proj-card">
+        <span class="proj-tag">UI/UX</span>
+        <div class="proj-title">Online Cafeteria Menu Platform</div>
+        <div class="proj-desc">A UI/UX-focused menu and ordering platform designed for clarity and ease of use.</div>
+      </div>
+      <div class="proj-card" style="grid-column: 1 / -1;">
+        <span class="proj-tag">AI · AWARD-WINNING</span>
+        <div class="proj-title">AI-Based Audit System</div>
+        <div class="proj-desc">Took 2nd place at IEEE Synergy 2025's Mini Project Expo, organized by the IEEE Student Branch with the Department of ISE. An intelligent system built to automate and support audit workflows.</div>
+      </div>
+    </div>
+  </section>
+
+  <section id="certifications">
+    <div class="section-head">
+      <span class="section-num">04</span>
+      <h2 class="section-title">Certifications</h2>
+      <span class="section-comment">// verified credentials</span>
+    </div>
+
+    <div class="cert-item">
+      <div class="cert-icon">✓</div>
+      <div>
+        <div class="cert-title">2nd Place — AI-Based Audit System, IEEE Synergy 2025 Mini Project Expo</div>
+        <div class="cert-desc">Organized by the IEEE Student Branch in association with the Department of ISE.</div>
+      </div>
+    </div>
+    <div class="cert-item">
+      <div class="cert-icon">✓</div>
+      <div>
+        <div class="cert-title">Java Programming — IIT Bombay</div>
+        <div class="cert-desc">Scored 95% in the national-level certification exam.</div>
+      </div>
+    </div>
+    <div class="cert-item">
+      <div class="cert-icon">✓</div>
+      <div>
+        <div class="cert-title">GenAI-Powered Data Analytics Job Simulation — Tata (Forage)</div>
+        <div class="cert-desc">Hands-on virtual experience in AI-driven data analysis, risk profiling, and business reporting.</div>
+      </div>
+    </div>
+  </section>
+
+  <section id="skills">
+    <div class="section-head">
+      <span class="section-num">05</span>
+      <h2 class="section-title">Skills</h2>
+      <span class="section-comment">// tech stack</span>
+    </div>
+
+    <div class="skills-grid">
+      <div>
+        <div class="skill-group-label">Languages</div>
+        <div class="skill-pills">
+          <span class="pill">Python</span>
+          <span class="pill">Java</span>
+          <span class="pill">C</span>
+        </div>
+      </div>
+      <div>
+        <div class="skill-group-label">Web</div>
+        <div class="skill-pills">
+          <span class="pill">HTML</span>
+          <span class="pill">CSS</span>
+          <span class="pill">JavaScript</span>
+          <span class="pill">React.js</span>
+          <span class="pill">Node.js</span>
+          <span class="pill">Express.js</span>
+        </div>
+      </div>
+      <div>
+        <div class="skill-group-label">Database</div>
+        <div class="skill-pills">
+          <span class="pill">MySQL</span>
+          <span class="pill">SQL</span>
+          <span class="pill">MongoDB</span>
+        </div>
+      </div>
+      <div>
+        <div class="skill-group-label">Core CS</div>
+        <div class="skill-pills">
+          <span class="pill">Data Structures</span>
+          <span class="pill">OOP</span>
+          <span class="pill">DBMS</span>
+        </div>
+      </div>
+      <div>
+        <div class="skill-group-label">AI / Tools</div>
+        <div class="skill-pills">
+          <span class="pill">TensorFlow</span>
+          <span class="pill">Gen AI</span>
+          <span class="pill">Prompt Engineering</span>
+          <span class="pill">Git/GitHub</span>
+        </div>
+      </div>
+      <div>
+        <div class="skill-group-label">Practices</div>
+        <div class="skill-pills">
+          <span class="pill">Problem-solving</span>
+          <span class="pill">Teamwork</span>
+          <span class="pill">Communication</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="contact" style="border-bottom: none;">
+    <div class="contact-cta">
+      <h2>Let's build <span class="teal">something.</span></h2>
+      <p>Open to internship opportunities in MERN stack development and AI/ML — reach out directly or find me on GitHub and LinkedIn.</p>
+      <div class="contact-links">
+        <a class="btn primary" href="mailto:aisharifza189@gmail.com">Send an email</a>
+        <a class="btn" href="https://www.linkedin.com/in/aisha-rifza-97022033a" target="_blank" rel="noopener">LinkedIn</a>
+        <a class="btn" href="https://github.com/Aishaa-09" target="_blank" rel="noopener">GitHub</a>
+      </div>
+    </div>
+  </section>
+
+  <footer>Built by Aisha Rifza · Bengaluru, India</footer>
+
+</div>
+
+<div class="statusbar">
+  <div class="statusbar-left">
+    <span class="branch">main</span>
+    <span>Ln 1, Col 1</span>
+  </div>
+  <div class="statusbar-right">
+    <span>UTF-8</span>
+    <span>Portfolio.tsx</span>
+    <span>● Open to work</span>
+  </div>
+</div>
+
+<script>
+  // Active tab highlight on scroll
+  const sections = document.querySelectorAll('section[id]');
+  const tabs = document.querySelectorAll('.tab');
+
+  function setActive() {
+    let current = sections[0].id;
+    const scrollPos = window.scrollY + 120;
+    sections.forEach(sec => {
+      if (sec.offsetTop <= scrollPos) current = sec.id;
+    });
+    tabs.forEach(tab => {
+      tab.classList.toggle('active', tab.getAttribute('href') === '#' + current);
+    });
+  }
+  window.addEventListener('scroll', setActive, { passive: true });
+  setActive();
+</script>
+
+</body>
+</html>
